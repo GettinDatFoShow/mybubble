@@ -6,10 +6,10 @@ import Home from './container/Home';
 
 const App = () => {
   return (
-    <Routes>
-      <Route path="login" element={<Login />}/>
-      <Route path="/*" element={<Home />}/>
-    </Routes>
+      <Routes>
+        <Route path="login" element={<Login />}/>
+        <Route path="/*" element={<Home />}/>
+      </Routes>
   )
 }
 
