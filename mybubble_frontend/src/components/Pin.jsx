@@ -16,8 +16,6 @@ const Pin = ({ pin: {postedBy, image, _id, destination, save}}) => {
     const navigate = useNavigate();
 
     const user = fetchUser();
-    console.log(save)
-    console.log(user)
     const alreadySaved = save?.some((item) => item.postedBy._id === user.sub);
     const reload = () => window.location.reload;
     const savePin = async (id) => {
@@ -51,13 +49,14 @@ const Pin = ({ pin: {postedBy, image, _id, destination, save}}) => {
         })
     };
     const imgSaveDestButtonClass = 'rounded-3xl opacity-70 flex items-center justify-between hover:opacity-100 px-4 py-1 text-base hover:shadow-md outline-none font-bold';
-    const imgIconDLDClass = 'bg-white w-9 h-9 rounded-full flex items-center justify-center text-dark text-xl opacity-75 hover:opacity-100 hover:shadow-md outline-none'
+    const imgIconDLDClass = 'bg-white w-9 h-9 rounded-full flex items-center justify-center text-dark text-xl opacity-75 hover:opacity-100 hover:shadow-md outline-none';
+
     return (
         <div className='m-2'>
             <div 
                 onMouseEnter={() => setPostHovered(true)}
                 onMouseLeave={() => setPostHovered(false)}
-                onClick={() => Navigate(`/pin-detail?${_id}`)}
+                onClick={() => navigate(`/pin-detail/${_id}`)}
                 className='relative cursor-zoom-in w-auto hover:shadow-lg rounded-lg overflow-hidden transition-all duration-500 ease-in-out' >
                 <img className='rounded-lg w-full' alt="user-post" src={urlFor(image).width(250).url()} />
                 {postHovered && (

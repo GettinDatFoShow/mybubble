@@ -1,12 +1,11 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { AiOutlineCloudUpload } from 'react-icons/ai';
 import { MdDelete } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 
 import { client } from '../client'; 
+import { fetchCategories } from '../utils';
 import Spinner from './Spinner';
-import { categories } from '../utils/data';
-// categories [{name: 'sports', image: ''}]
 
 const CreatePin = ({ user }) => {
     
@@ -14,20 +13,34 @@ const CreatePin = ({ user }) => {
     const [about, setAbout] = useState('');
     const [destination, setDestination] = useState('');
     const [loading, setLoading] = useState(false);
-    const [fields, setFields] = useState();
+    const [fields, setFields] = useState(false);
     const [category, setCategory] = useState();
     const [imageAsset, setImageAsset] = useState();
     const [wrongImageType, setWrongImageType] = useState(false);
+    const [categories, setCategories] = useState();
+
+    useEffect(() => {
+        // setLoading(true);
+         fetchCategories().then((data) => { 
+            console.log('Fetching all categories...');
+            console.log(data);
+            setCategories(data);
+            setLoading(false);
+        }).catch((error) => {
+            console.error(error);
+            // setLoading(false);
+        })
+    },[]);
 
     const navigate = useNavigate();
     
-    const uploadImage = (e) => {
+    const uploadImage = async (e) => {
         const selectedFile = e.target.files[0];
         const { type, name } = selectedFile
-        if (['png', 'svg', 'jpeg', 'jpg', 'gif', 'tiff'].includes(type.slice(6))) {
+        if (['png', 'svg', 'jpeg', 'jpg', 'gif', 'tiff', 'webp'].includes(type.slice(6))) {
             setWrongImageType(false);
             setLoading(true);
-            client.assets.upload('image', selectedFile).then(
+            await client.assets.upload('image', selectedFile).then(
                 (document) => {
                     console.log('UPLOAD SUCCESS', document);
                     setImageAsset(document);
@@ -48,7 +61,7 @@ const CreatePin = ({ user }) => {
         setImageAsset(null);
     };
 
-    const savePin = (e) => {
+    const savePin = async (e) => {
         if(title && about && destination && imageAsset?._id && category) {
             const doc = {
                 _type: 'pin',
@@ -69,12 +82,15 @@ const CreatePin = ({ user }) => {
                 },
                 category,
             };
-            client.create(doc).then( (response) => { 
+            await client.create(doc).then( (response) => { 
                 console.log('Successfuly Create', response);
                 navigate('/');
             }).catch( (err) => { 
                 console.error('Pin Create Error', err);
             })
+        } else {
+            setFields(true);
+            setTimeout(() => { setFields(false)}, 2000)
         }
     };
 
@@ -100,7 +116,7 @@ const CreatePin = ({ user }) => {
                                         </p>
                                     </div>
                                     <p className='text-grey-400 mt-32'>
-                                        Use high-quality JPG, JPEG, SVG, PNG, GIF or TIFF less than 20mb
+                                        Use high-quality JPG, JPEG, SVG, PNG, WEBP GIF or TIFF less than 20mb
                                     </p>
                                 </div>
                                 <input 
