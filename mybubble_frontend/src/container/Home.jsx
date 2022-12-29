@@ -17,11 +17,9 @@ const Home = () => {
   const userInfo = fetchUser();
 
   useEffect( async () => {
-    console.log(userInfo);
     const query = userQuery(userInfo?.sub);
     await client.fetch(query)
       .then((data)=> {
-        console.log(data);
         setUser(data[0]);
       });
   }, [])

@@ -61,6 +61,7 @@ const PinDetail = ({ user }) => {
     const imgIconDLDClass = 'bg-white w-9 h-9 rounded-full flex items-center justify-center text-dark text-xl opacity-75 hover:opacity-100 hover:shadow-md outline-none';
 
     return (
+        <>
         <div className='flex xl-flex-row flex-col m-auto bg-white' style={{ maxWidth: '1500', borderRadius: '32px'}}>
             <div className='flex justify-center items-center md:items-start flex-initial'>  
                 <img src={pinDetail?.image && urlFor(pinDetail.image).url()} 
@@ -134,7 +135,18 @@ const PinDetail = ({ user }) => {
                 </div>
             </div>
         </div>
-    )
-}
+        {pins?.length > 0 && (
+                <h2 className="text-center font-bold text-2xl mt-8 mb-4">
+                Check out more like this..
+                </h2>
+            )}
+            {pins ? (
+                <MasonryLayout pins={pins} />
+            ) : (
+                <Spinner message="Loading more pins" />
+            )}
+        </>
+    );
+};
 
 export default PinDetail

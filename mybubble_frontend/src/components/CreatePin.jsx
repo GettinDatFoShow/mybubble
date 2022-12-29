@@ -176,7 +176,7 @@ const CreatePin = ({ user }) => {
                                 className='sm:text-bg bg-white'>   
                                 Select Category                             
                             </option>
-                            { categories.map((category) => (
+                            { categories?.map((category) => (
                                 <option 
                                 className='text-base border-0 outline-none capitalize bg-white text-black'
                                  value={category.name}>{category.name}
@@ -192,14 +192,14 @@ const CreatePin = ({ user }) => {
                         </div>
                     </div>
 
-                    {/* {user && (
+                    {user && (
                         <div className='flex gap-2 my-2 items-center justify-end bg-white' >
                                 <img src={user?.image} 
                                     alt='user-profile'
                                     className='w-10 h-10 rounded-full'/>
                                 <p className='font-bold'>{user?.userName}</p>
                         </div>
-                    )}  */}
+                    )} 
                 </div>
 
             </div>

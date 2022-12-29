@@ -97,7 +97,7 @@ const Pin = ({ pin: {postedBy, image, _id, destination, save}}) => {
                                     rel='noreferrer'
                                     className={`${imgSaveDestButtonClass} pl-2 bg-white`}>
                                         <span className='pr-2'><BsFillArrowUpRightCircleFill /></span>
-                                        {destination.slice(8, 17)}
+                                        {destination?.replace('https://', '').replace('http://', '').split('/')[0]}
                                 </a>
                             )}
                             {postedBy?._id === user.sub && (
